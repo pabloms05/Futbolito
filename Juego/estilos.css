@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #004d98 0%, #a50044 50%, #ffffff 50%, #ffd700 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Escudo del Barça - Lado Izquierdo */
+body::before {
+    content: '';
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background-image: url('escudos/escudo%20Barcelona.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 1;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    filter: drop-shadow(0 0 30px rgba(0, 77, 152, 0.5));
+}
+
+/* Escudo del Madrid - Lado Derecho */
+body::after {
+    content: '';
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background-image: url('escudos/escudo%20Madrid.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 1;
+    top: 50%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+}
+
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    border-left: 5px solid #a50044;
+    border-right: 5px solid #ffd700;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+}
+
+/* Información de Jugadores */
+.game-info {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.player-info {
+    flex: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.player-info h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.score {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Fase del Juego */
+.game-phase {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 3px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.game-phase h3 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.game-phase p {
+    font-size: 1.2em;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Cuadrícula */
+.grid-container {
+    margin: 30px auto;
+    max-width: 700px;
+}
+
+.grid-label {
+    display: grid;
+    grid-template-columns: 100px repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #007bff;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    align-items: center;
+}
+
+.grid-label span:first-child {
+    visibility: hidden;
+}
+
+.grid-label span {
+    text-align: center;
+    padding: 8px 12px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid-wrapper {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.direction-labels {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    font-weight: bold;
+    color: #007bff;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.direction-labels span {
+    text-align: center;
+    padding: 8px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 20px;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 3px solid #ddd;
+    position: relative;
+    z-index: 2;
+}
+
+.grid-cell {
+    aspect-ratio: 1;
+    background: white;
+    border: 3px solid #007bff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 100px;
+}
+
+.grid-cell:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.4);
+    border-color: #0056b3;
+    background: #f0f8ff;
+}
+
+.grid-cell .ball {
+    font-size: 3em;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.grid-cell:hover .ball {
+    transform: scale(1.2) rotate(360deg);
+}
+
+.grid-cell.selected {
+    background: #28a745;
+    border-color: #1e7e34;
+    animation: pulse 0.5s ease;
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
+}
+
+.grid-cell.selected .ball {
+    filter: brightness(1.5) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Selección Actual */
+.selection-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+    text-align: center;
+    border: 3px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.selection-info p {
+    font-size: 1.3em;
+    color: #333;
+}
+
+.selection-info strong {
+    color: #007bff;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .game-info {
+        flex-direction: column;
+    }
+    
+    .grid {
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .grid-cell .ball {
+        font-size: 2em;
+    }
+    
+    body::before {
+        width: 250px;
+        height: 250px;
+        left: 10%;
+    }
+    
+    body::after {
+        width: 250px;
+        height: 250px;
+        right: 10%;
+    }
+    
+    .grid-container {
+        max-width: 100%;
+    }
+    
+    .grid-wrapper {
+        grid-template-columns: 80px 1fr;
+        gap: 10px;
+    }
+    
+    .grid-label {
+        grid-template-columns: 80px repeat(3, 1fr);
+        gap: 10px;
+        font-size: 0.9em;
+    }
+    
+    .grid-label span {
+        padding: 6px 8px;
+        font-size: 0.85em;
+    }
+    
+    .direction-labels {
+        gap: 10px;
+        font-size: 0.9em;
+    }
+    
+    .direction-labels span {
+        padding: 6px 8px;
+        font-size: 0.85em;
+    }
+    
+    .grid-cell {
+        min-height: 80px;
+    }
+    
+    .choices {
+        flex-direction: column;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
