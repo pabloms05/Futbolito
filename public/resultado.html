@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultado - Tanda de Penales</title>
+    <link rel="stylesheet" href="styles-resultado.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body>
+    <div class="resultado-container">
+      <h1>🏆 Resultado de la Tanda 🏆</h1>
+      
+      <div class="marcador">
+        <div class="jugador jugador1">
+          <h2 id="nombreJ1">Jugador 1</h2>
+          <div class="puntos" id="puntosJ1">0</div>
+          <div class="detalles">
+            <p><strong>Tiro:</strong> <span id="tiroJ1">-</span></p>
+            <p><strong>Defensa:</strong> <span id="defensaJ1">-</span></p>
+          </div>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="jugador jugador2">
+          <h2 id="nombreJ2">Jugador 2</h2>
+          <div class="puntos" id="puntosJ2">0</div>
+          <div class="detalles">
+            <p><strong>Tiro:</strong> <span id="tiroJ2">-</span></p>
+            <p><strong>Defensa:</strong> <span id="defensaJ2">-</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ganador" id="ganador">
+        🏆 Ganador: Empate
+      </div>
+
+      <div class="botones">
+        <button id="btnReiniciar" class="btn btn-primary">
+          🔄 Jugar de Nuevo
+        </button>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function() {
+        // Obtener datos del resultado desde URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Parsear los objetos JSON
+        const p1Shoot = JSON.parse(urlParams.get('p1Shoot') || '{}');
+        const p1Defend = JSON.parse(urlParams.get('p1Defend') || '{}');
+        const p2Shoot = JSON.parse(urlParams.get('p2Shoot') || '{}');
+        const p2Defend = JSON.parse(urlParams.get('p2Defend') || '{}');
+        
+        const resultado = {
+          player1: {
+            name: urlParams.get('p1Name') || 'Jugador 1',
+            score: parseInt(urlParams.get('p1Score')) || 0,
+            shoot: p1Shoot,
+            defend: p1Defend
+          },
+          player2: {
+            name: urlParams.get('p2Name') || 'Jugador 2',
+            score: parseInt(urlParams.get('p2Score')) || 0,
+            shoot: p2Shoot,
+            defend: p2Defend
+          },
+          winner: urlParams.get('winner') || 'Empate'
+        };
+
+        // Mostrar nombres de jugadores
+        $('#nombreJ1').text(resultado.player1.name);
+        $('#nombreJ2').text(resultado.player2.name);
+        
+        // Mostrar resultados
+        $('#puntosJ1').text(resultado.player1.score);
+        $('#puntosJ2').text(resultado.player2.score);
+        
+        $('#tiroJ1').text(formatearPosicion(resultado.player1.shoot));
+        $('#defensaJ1').text(formatearPosicion(resultado.player1.defend));
+        
+        $('#tiroJ2').text(formatearPosicion(resultado.player2.shoot));
+        $('#defensaJ2').text(formatearPosicion(resultado.player2.defend));
+        
+        $('#ganador').html(`🏆 ${resultado.winner}`);
+
+        // Destacar al ganador
+        if (resultado.winner === resultado.player1.name) {
+          $('.jugador1').addClass('ganador-destacado');
+        } else if (resultado.winner === resultado.player2.name) {
+          $('.jugador2').addClass('ganador-destacado');
+        }
+
+        // Botón de reiniciar
+        $('#btnReiniciar').on('click', function() {
+          // Marcar que viene desde "Jugar de Nuevo" para mantener nombres
+          sessionStorage.setItem('juegoNuevo', 'true');
+          window.location.href = 'index.html';
+        });
+      });
+
+      function formatearPosicion(posObj) {
+        if (!posObj || !posObj.height || !posObj.direction) return '-';
+        
+        // Capitalizar primera letra
+        const altura = posObj.height.charAt(0).toUpperCase() + posObj.height.slice(1);
+        const direccion = posObj.direction.charAt(0).toUpperCase() + posObj.direction.slice(1);
+        
+        return `${altura} - ${direccion}`;
+      }
+    </script>
+  </body>
+</html>

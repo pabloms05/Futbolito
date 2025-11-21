@@ -4,8 +4,8 @@
  * - 1 punto: acierta solo altura o solo dirección
  * - 2 puntos: acierta altura y dirección
  *
- * shoot: { height: 'alta'|'mitjana'|'baixa', direction: 'esquerra'|'centre'|'dreta' }
- * defend: { height: 'alta'|'mitjana'|'baixa', direction: 'esquerra'|'centre'|'dreta' }
+ * shoot: { height: 'alta'|'media'|'baja', direction: 'izquierda'|'centro'|'derecha' }
+ * defend: { height: 'alta'|'media'|'baja', direction: 'izquierda'|'centro'|'derecha' }
  */
 export function compare(shoot, defend) {
   if (!shoot || !defend) return 0;

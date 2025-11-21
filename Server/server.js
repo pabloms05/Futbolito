@@ -14,14 +14,14 @@ app.use(express.static(resolve(__dirname, "../public")));
 const io = new Server(server);
 
 let games = {}; 
-// Estructura: { gameId: { players: [id1, id2], choices: {} } }
+// Estructura: { gameId: { players: [id1, id2], choices: {}, names: {} } }
 
 io.on("connection", (socket) => {
   console.log("Jugador conectado:", socket.id);
 
   socket.on("joinGame", (gameId) => {
     if (!games[gameId])
-      games[gameId] = { players: [], choices: {} };
+      games[gameId] = { players: [], choices: {}, names: {} };
 
     const game = games[gameId];
 
@@ -46,6 +46,20 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("setPlayerName", ({ gameId, nombre }) => {
+    const game = games[gameId];
+    if (!game) return;
+
+    game.names[socket.id] = nombre;
+    
+    // Verificar si el otro jugador ya tiene nombre
+    const hasOtherPlayer = game.players.length === 2;
+    
+    io.to(socket.id).emit("playerNameSet", { hasOtherPlayer });
+    
+    console.log(`Jugador ${socket.id} se llama: ${nombre}`);
+  });
+
   socket.on("makeChoice", ({ gameId, shoot, defend }) => {
     const game = games[gameId];
     if (!game) return;
@@ -62,6 +76,17 @@ io.on("connection", (socket) => {
         { shoot: game.choices[p1].shoot, defend: game.choices[p1].defend },
         { shoot: game.choices[p2].shoot, defend: game.choices[p2].defend }
       );
+
+      // Agregar nombres de jugadores al resultado
+      result.player1.name = game.names[p1] || 'Jugador 1';
+      result.player2.name = game.names[p2] || 'Jugador 2';
+      
+      // Actualizar el texto del ganador con el nombre real
+      if (result.winner === 'Jugador 1') {
+        result.winner = result.player1.name;
+      } else if (result.winner === 'Jugador 2') {
+        result.winner = result.player2.name;
+      }
 
       // Enviar resultado a ambos jugadores
       io.to(gameId).emit("gameResult", result);
