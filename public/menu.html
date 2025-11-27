@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penales Real</title>
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="client.js" defer></script>
+  </head>
+  <body>
+    <!-- Modal para pedir nombre -->
+    <div id="nameModal" class="modal">
+      <div class="modal-content">
+        <h2 id="modalTitle">Hola eres el Jugador 1!!</h2>
+        <p>¿Qué nombre quieres ponerte?</p>
+        <input type="text" id="playerNameInput" placeholder="Tu nombre" maxlength="20" />
+        <button id="submitName">Confirmar</button>
+      </div>
+    </div>
+
+    <div class="info-container">
+      <p id="playerInfo"></p>
+      <p id="status">Esperando jugadores...</p>
+    </div>
+
+    <!-- Contenedor de la portería -->
+    <div class="goal-container">
+      <!-- Portería como imagen de fondo -->
+      <img
+        src="assets/porteria.png"
+        alt="Portería"
+        class="goal-image"
+      />
+
+      <!-- Círculos interactivos sobre la portería -->
+      <div id="goal"></div>
+    </div>
+
+    <div id="result"></div>
+    <button id="reset" class="hidden">Reiniciar</button>
+  </body>
+</html>
