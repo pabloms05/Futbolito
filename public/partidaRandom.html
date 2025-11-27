@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partida Random ⚽</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body class="page-random">
+    <!-- Modal para nombre -->
+    <div id="nameModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modalTitle">¡Bienvenido!</h2>
+            <p>Introduce tu nombre para continuar</p>
+            <input type="text" id="playerNameInput" placeholder="Tu nombre" maxlength="20">
+            <button id="submitName">Comenzar</button>
+        </div>
+    </div>
+
+    <!-- Estado de espera -->
+    <div id="waitingRoom" class="waiting-room hidden">
+        <div class="waiting-content">
+            <div class="spinner"></div>
+            <h2>Buscando oponente...</h2>
+            <p id="waitingText">Esperando a que otro jugador se una</p>
+            <button id="cancelWaiting" class="btn-cancel">Cancelar</button>
+        </div>
+    </div>
+
+    <div class="info-container">
+        <div id="playerInfo"></div>
+        <div id="status">Esperando conexión...</div>
+    </div>
+
+    <div id="goal"></div>
+
+    <button id="reset" style="display:none;">Reiniciar</button>
+
+    <script src="client.js"></script>
+    <script src="random.js"></script>
+</body>
+</html>

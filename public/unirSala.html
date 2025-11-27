@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unirse a Sala ⚽</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body class="page-unir">
+    <div class="container">
+        <button class="btn-back" onclick="location.href='menu.html'">← Volver</button>
+        
+        <div class="content">
+            <h1>🚪 Unirse a Sala</h1>
+            
+            <div id="joinSection" class="section">
+                <p class="instruction">Introduce tu nombre y el código de sala</p>
+                
+                <input type="text" id="playerNameInput" placeholder="Tu nombre" maxlength="20">
+                
+                <div class="code-input-container">
+                    <input 
+                        type="text" 
+                        id="roomCodeInput" 
+                        placeholder="CÓDIGO" 
+                        maxlength="6"
+                        style="text-transform: uppercase; letter-spacing: 5px; text-align: center; font-size: 1.5rem;"
+                    >
+                </div>
+                
+                <button id="joinRoomBtn" class="btn btn-primary">Unirse a Sala</button>
+                
+                <div id="errorMessage" class="error-message hidden">
+                    ❌ Código de sala inválido o sala llena
+                </div>
+            </div>
+
+            <div id="joiningSection" class="section hidden">
+                <div class="spinner"></div>
+                <h2>Uniéndose a la sala...</h2>
+                <p id="joiningText">Validando código...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+    <script src="unir.js"></script>
+</body>
+</html>

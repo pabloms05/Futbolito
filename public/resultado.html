@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resultado - Tanda de Penales</title>
-    <link rel="stylesheet" href="styles-resultado.css" />
+    <link rel="stylesheet" href="styles.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
-  <body>
+  <body class="page-resultado">
     <div class="resultado-container">
       <h1>🏆 Resultado de la Tanda 🏆</h1>
       
@@ -68,7 +68,9 @@
             shoot: p2Shoot,
             defend: p2Defend
           },
-          winner: urlParams.get('winner') || 'Empate'
+          winner: urlParams.get('winner') || 'Empate',
+          mode: urlParams.get('mode') || 'normal',
+          room: urlParams.get('room') || ''
         };
 
         // Mostrar nombres de jugadores
@@ -94,12 +96,37 @@
           $('.jugador2').addClass('ganador-destacado');
         }
 
-        // Botón de reiniciar
+        // Botón de reiniciar según modo de juego
         $('#btnReiniciar').on('click', function() {
           // Marcar que viene desde "Jugar de Nuevo" para mantener nombres
           sessionStorage.setItem('juegoNuevo', 'true');
-          window.location.href = 'index.html';
+          
+          if (resultado.mode === 'room' && resultado.room) {
+            // Si es una sala, volver a la misma sala
+            window.location.href = `juego.html?room=${resultado.room}`;
+          } else if (resultado.mode === 'random') {
+            // Si es random, buscar nueva partida
+            window.location.href = 'partidaRandom.html';
+          } else {
+            // Modo normal (compatibilidad)
+            window.location.href = 'index.html';
+          }
         });
+
+        // Botón para volver al menú
+        if (resultado.mode === 'room' || resultado.mode === 'random') {
+          const btnMenu = $('<button>')
+            .attr('id', 'btnMenu')
+            .addClass('btn btn-secondary')
+            .html('🏠 Volver al Menú')
+            .on('click', function() {
+              sessionStorage.removeItem('juegoNuevo');
+              sessionStorage.removeItem('nombreJugador');
+              window.location.href = 'menu.html';
+            });
+          
+          $('.botones').append(btnMenu);
+        }
       });
 
       function formatearPosicion(posObj) {
