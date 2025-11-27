@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juego - Penaltis ⚽</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body class="page-juego">
+    <div class="info-container">
+      <p id="playerInfo"></p>
+      <p id="status">Esperando jugadores...</p>
+    </div>
+
+    <div class="goal-container">
+      <img src="assets/porteria.png" alt="Portería" class="goal-image" />
+      <div id="goal"></div>
+    </div>
+
+    <div id="result"></div>
+    <button id="reset" class="hidden">Reiniciar</button>
+
+    <script src="client.js"></script>
+    <script src="juego.js"></script>
+  </body>
+</html>

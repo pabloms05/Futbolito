@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penaltis ⚽ - Menú Principal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-menu">
+    <div class="container">
+        <h1 class="title">⚽ PENALTIS ⚽</h1>
+        <p class="subtitle">Elige tu modo de juego</p>
+        
+        <div class="menu-options">
+            <div class="option-card" onclick="location.href='partidaRandom.html'">
+                <div class="icon">🎲</div>
+                <h2>Partida Random</h2>
+                <p>Emparejamiento automático con un jugador aleatorio</p>
+                <button class="btn btn-random">Jugar Ahora</button>
+            </div>
+            
+            <div class="option-card" onclick="location.href='crearSala.html'">
+                <div class="icon">🔑</div>
+                <h2>Crear Sala</h2>
+                <p>Crea una sala privada y comparte el código con un amigo</p>
+                <button class="btn btn-sala">Crear Sala</button>
+            </div>
+
+            <div class="option-card" onclick="location.href='unirSala.html'">
+                <div class="icon">🚪</div>
+                <h2>Unirse a Sala</h2>
+                <p>Ingresa el código de sala de tu amigo para jugar</p>
+                <button class="btn btn-unir">Unirse</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Sala ⚽</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body class="page-sala">
+    <div class="container">
+        <button class="btn-back" onclick="location.href='menu.html'">← Volver</button>
+        
+        <div class="content">
+            <h1>🔑 Crear Sala Privada</h1>
+            
+            <div id="nameSection" class="section">
+                <p class="instruction">Introduce tu nombre para crear la sala</p>
+                <input type="text" id="playerNameInput" placeholder="Tu nombre" maxlength="20">
+                <button id="createRoomBtn" class="btn btn-primary">Crear Sala</button>
+            </div>
+
+            <div id="roomSection" class="section hidden">
+                <div class="success-icon">✓</div>
+                <h2>¡Sala creada exitosamente!</h2>
+                
+                <div class="room-code-container">
+                    <p class="label">Código de Sala:</p>
+                    <div class="code-display">
+                        <span id="roomCode" class="room-code">------</span>
+                        <button id="copyBtn" class="btn-copy" title="Copiar código">
+                            📋
+                        </button>
+                    </div>
+                    <p class="hint">Comparte este código con tu amigo</p>
+                </div>
+
+                <div class="waiting-status">
+                    <div class="spinner-small"></div>
+                    <p id="waitingText">Esperando a que tu amigo se una...</p>
+                </div>
+
+                <div class="player-info">
+                    <p><strong>Tu nombre:</strong> <span id="yourName"></span></p>
+                    <p><strong>Estado:</strong> <span id="roomStatus">Esperando...</span></p>
+                </div>
+
+                <button id="cancelRoom" class="btn btn-cancel">Cancelar Sala</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+    <script src="sala.js"></script>
+</body>
+</html>
