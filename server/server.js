@@ -142,7 +142,10 @@ io.on("connection", (socket) => {
   // Unirse a sala de juego (desde juego.html)
   socket.on("joinGameRoom", ({ roomCode, playerName }) => {
     const game = games[roomCode];
-    if (!game) return;
+    if (!game) {
+      socket.emit("joinError", "Sala no encontrada");
+      return;
+    }
 
     socket.join(roomCode);
     
@@ -153,16 +156,30 @@ io.on("connection", (socket) => {
         game.players.push(socket.id);
         game.names[socket.id] = playerName;
       }
+    } else {
+      // Actualizar el nombre del jugador si ya estaba en la sala
+      game.names[socket.id] = playerName;
     }
 
     const playerNumber = game.players.indexOf(socket.id) + 1;
     socket.emit("playerNumber", playerNumber);
     socket.emit("gameIdAssigned", roomCode);
 
-    if (game.players.length === 2) {
+    // Contar cuántos jugadores están activos (reconectados)
+    const activePlayers = game.players.filter(playerId => {
+      const playerSocket = io.sockets.sockets.get(playerId);
+      return playerSocket && Array.from(playerSocket.rooms).includes(roomCode);
+    }).length;
+
+    console.log(`${playerName} se unió a la sala ${roomCode}. Jugadores activos: ${activePlayers}/2`);
+
+    if (activePlayers === 2) {
       setTimeout(() => {
         io.to(roomCode).emit("gameStart");
+        console.log(`Reiniciando juego en sala ${roomCode}`);
       }, 500);
+    } else {
+      socket.emit("waitingForOtherPlayer");
     }
   });
 
@@ -241,8 +258,14 @@ io.on("connection", (socket) => {
       io.to(gameId).emit("gameResult", result);
       console.log(`Resultado partida ${gameId}:`, result);
 
-      // Reiniciar partida para próximas rondas
-      delete games[gameId];
+      // Solo reiniciar las elecciones, mantener la sala si es de tipo 'room'
+      if (game.type === 'room') {
+        game.choices = {}; // Limpiar elecciones para nueva ronda
+        console.log(`Sala ${gameId} lista para nueva ronda`);
+      } else {
+        // Para partidas random o normales, eliminar la partida
+        delete games[gameId];
+      }
     }
   });
 

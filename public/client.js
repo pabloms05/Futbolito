@@ -193,6 +193,16 @@ socket.on("gameResult", (data) => {
     console.log('Resultado del juego:', data);
 });
 
+socket.on("waitingForOtherPlayer", () => {
+    $('#status').text("Esperando a que el otro jugador se una...");
+    console.log('Esperando al otro jugador para reiniciar');
+});
+
+socket.on("joinError", (message) => {
+    alert(message);
+    window.location.href = 'menu.html';
+});
+
 // ============================================
 // EVENTOS BOTONES COMUNES
 // ============================================
