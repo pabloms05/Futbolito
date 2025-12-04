@@ -585,13 +585,13 @@ h1 {
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
     position: absolute;
-    width: 70%;
-    height: 65%;
-    gap: 1.2rem;
+    width: 68%;
+    height: 63%;
+    gap: 1.5rem;
     z-index: 10;
     place-items: center;
-    top: 21.5%;
-    left: 15%;
+    top: 24%;
+    left: 16%;
 }
 
 /* Círculos individuales de la portería */
