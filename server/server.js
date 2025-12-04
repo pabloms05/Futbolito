@@ -147,24 +147,18 @@ io.on("connection", (socket) => {
     socket.join(roomCode);
     
     const playerIndex = game.players.indexOf(socket.id);
-    const isReconnecting = playerIndex !== -1;
-
     if (playerIndex === -1) {
-      // Jugador nuevo (primero en unirse)
+      // Jugador no estaba en la lista, agregarlo
       if (game.players.length < 2) {
         game.players.push(socket.id);
         game.names[socket.id] = playerName;
       }
-    } else {
-      // Jugador se está reconectando (volviendo después de ver resultado)
-      game.names[socket.id] = playerName;
     }
 
     const playerNumber = game.players.indexOf(socket.id) + 1;
     socket.emit("playerNumber", playerNumber);
     socket.emit("gameIdAssigned", roomCode);
 
-    // Si ambos jugadores están listos, iniciar juego
     if (game.players.length === 2) {
       setTimeout(() => {
         io.to(roomCode).emit("gameStart");
@@ -247,8 +241,8 @@ io.on("connection", (socket) => {
       io.to(gameId).emit("gameResult", result);
       console.log(`Resultado partida ${gameId}:`, result);
 
-      // Limpiar elecciones para la próxima ronda (mantener la sala activa)
-      game.choices = {};
+      // Reiniciar partida para próximas rondas
+      delete games[gameId];
     }
   });
 
