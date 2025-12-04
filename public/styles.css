@@ -8,16 +8,417 @@
 body {
     margin: 0;
     padding: 0;
-    /* Imagen de fondo */
     background: url('assets/campo.jpg') no-repeat center center fixed;
     background-size: cover;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+}
+
+/* ============ ESTILOS PARA PÁGINAS DE SALAS ============ */
+
+/* Páginas de sala, unir y random */
+.page-sala, .page-unir, .page-random {
+    position: relative;
+}
+
+.page-sala::before, .page-unir::before, .page-random::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    max-width: 500px;
+    width: 90%;
+    margin: 2rem auto;
+}
+
+.btn-back {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.btn-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.content {
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 2.2rem;
+    color: #1a472a;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    margin: 1.5rem 0;
+}
+
+.section.hidden {
+    display: none;
+}
+
+.instruction {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 0.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.btn-cancel {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.btn-cancel:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #10b981;
+    margin-bottom: 1rem;
+}
+
+.room-code-container {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+    border: 2px solid #0ea5e9;
+}
+
+.label {
+    font-size: 1rem;
+    color: #475569;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.code-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.room-code {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0c4a6e;
+    letter-spacing: 8px;
+    font-family: 'Courier New', monospace;
+    background: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    border: 2px solid #0ea5e9;
+}
+
+.btn-copy {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-copy:hover {
+    background: #0284c7;
+    transform: scale(1.1);
+}
+
+.hint {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-style: italic;
+}
+
+.waiting-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #fef3c7;
+    border-radius: 10px;
+}
+
+.spinner-small {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f59e0b;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.player-info {
+    text-align: left;
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.player-info p {
+    margin: 0.5rem 0;
+    color: #334155;
+    font-size: 1rem;
+}
+
+.error-message {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    border: 2px solid #ef4444;
+    font-weight: 600;
+}
+
+.error-message.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #e0f2fe;
+    border-top-color: #0ea5e9;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Waiting Room */
+.waiting-room {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.waiting-room.hidden {
+    display: none;
+}
+
+.waiting-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.waiting-content h2 {
+    color: #1e293b;
+    font-size: 1.8rem;
+    margin: 1rem 0;
+}
+
+.waiting-content p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+/* ============ ESTILOS PARA PÁGINA DE RESULTADO ============ */
+
+.page-resultado {
+    background: url('assets/campo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.page-resultado::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 0;
+}
+
+.resultado-container {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+}
+
+.resultado-container h1 {
+    font-size: 2.5rem;
+    color: #1a472a;
+    margin-bottom: 2rem;
+}
+
+.marcador {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.jugador {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    min-width: 200px;
+    flex: 1;
+    border: 3px solid #0ea5e9;
+    transition: all 0.3s;
+}
+
+.jugador h2 {
+    color: #0c4a6e;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.puntos {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #0284c7;
+    margin: 1rem 0;
+}
+
+.detalles {
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.detalles p {
+    color: #334155;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.vs {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #64748b;
+}
+
+.ganador {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+    border: 3px solid #f59e0b;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #92400e;
+}
+
+.ganador-destacado {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    transform: scale(1.05);
+}
+
+.botones {
+    margin-top: 2rem;
 }
 
 /* Título principal */
@@ -58,20 +459,16 @@ h1 {
 }
 
 /* Contenedor de la portería */
-/* .goal-container { position: relative; width: 100%; max-width: 1100px; height: 600px; display: flex; justify-content: center; align-items: center; margin: 0.5rem auto; } */
 .goal-container {
     position: absolute;
-
-    /* Ajustes calculados para esa imagen */
-    top: 28vh;        /* Baja el grid para que empiece justo en el travesaño */
-    left: 18vw;       /* Corrección hacia la derecha para encajar con el poste izquierdo */
-    width: 64vw;      /* Reduce para que no invada la zona izquierda/derecha */
-    height: 47vh;     /* Ajusta la altura exacta entre travesaño y el césped */
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-
+    top: 25vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70vw;
+    height: 55vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     pointer-events: auto;
 }
 
@@ -85,36 +482,39 @@ h1 {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
-    width: 85%;
+    width: 90%;
     height: 80%;
-    row-gap: 15px;
-    column-gap: 30px;
+    max-width: 550px;
+    max-height: 420px;
+    gap: 2.5rem 2rem;
     z-index: 10;
-    position: absolute;
-    top: 52%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    place-items: center;
 }
 
 /* Círculos individuales de la portería */
-/* .goal-circle { width: 100%; max-width: 180px; height: 100%; max-height: 180px; aspect-ratio: 1; margin: auto; background-color: rgba(255, 255, 255, 0.4); border-radius: 50%; border: 4px solid #60a5fa; box-shadow: 0 0 20px rgba(96, 165, 250, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; position: relative; } */
 .goal-circle {
-    width: 8vw;
-    /* proporcional a la pantalla */
-    height: 8vw;
-    max-width: 120px;
-    max-height: 120px;
+    width: 100%;
+    height: 100%;
+    max-width: 130px;
+    max-height: 130px;
+    aspect-ratio: 1;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.3);
     border: 3px solid rgba(0, 140, 255, 0.7);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .goal-circle:hover {
     transform: scale(1.15);
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.6);
     box-shadow: 0 0 30px rgba(96, 165, 250, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.4);
-    border-width: 5px;
+    border-width: 4px;
 }
 
 /* Iconos dentro de los círculos */
@@ -122,28 +522,17 @@ h1 {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 45%;        /* Ajusta el tamaño del balón o guante */
-    height: auto;
     transform: translate(-50%, -50%);
+    font-size: 3.5rem;
+    width: auto;
+    height: auto;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Animación de vuelo del icono */
-@keyframes fly {
-    0% {
-        transform: translateY(-50px) scale(0.8);
-        opacity: 0.7;
-    }
 
-    100% {
-        transform: translateY(0px) scale(1.2);
-        opacity: 1;
-    }
-}
-
-.animate-fly {
-    animation: fly 0.6s ease-out;
-}
 
 /* Resultado */
 #result {
@@ -281,16 +670,18 @@ h1 {
     }
 
     .goal-container {
-        max-width: 90%;
+        width: 70vw;
+        height: 50vh;
     }
 
     #goal {
-        width: 65%;
-        gap: 0.875rem;
+        gap: 1rem;
+        padding: 1.5rem;
     }
 
-    .icon {
-        font-size: 2rem;
+    .goal-circle {
+        max-width: 100px;
+        max-height: 100px;
     }
 }
 
@@ -319,20 +710,20 @@ h1 {
     }
 
     .goal-container {
-        max-width: 95%;
+        width: 75vw;
+        height: 45vh;
+        top: 30vh;
     }
 
     #goal {
-        width: 70%;
-        gap: 0.625rem;
+        gap: 0.8rem;
+        padding: 1rem;
     }
 
     .goal-circle {
+        max-width: 80px;
+        max-height: 80px;
         border-width: 2px;
-    }
-
-    .icon {
-        font-size: 1.75rem;
     }
 
     #result {
@@ -364,20 +755,21 @@ h1 {
     }
 
     .goal-container {
-        max-width: 100%;
+        width: 85vw;
+        height: 40vh;
+        top: 32vh;
+        left: 7.5vw;
     }
 
     #goal {
-        width: 75%;
         gap: 0.5rem;
+        padding: 0.8rem;
     }
 
     .goal-circle {
+        max-width: 70px;
+        max-height: 70px;
         border-width: 2px;
-    }
-
-    .icon {
-        font-size: 1.5rem;
     }
 
     #result {
@@ -414,17 +806,22 @@ h1 {
         font-size: 0.75rem;
     }
 
+    .goal-container {
+        width: 90vw;
+        height: 35vh;
+        top: 33vh;
+        left: 5vw;
+    }
+
     #goal {
-        width: 78%;
-        gap: 0.375rem;
+        gap: 0.4rem;
+        padding: 0.5rem;
     }
 
     .goal-circle {
-        border-width: 1.5px;
-    }
-
-    .icon {
-        font-size: 1.25rem;
+        max-width: 60px;
+        max-height: 60px;
+        border-width: 2px;
     }
 
     #result {
@@ -445,17 +842,22 @@ h1 {
         font-size: 1.125rem;
     }
 
+    .goal-container {
+        width: 92vw;
+        height: 32vh;
+        top: 34vh;
+        left: 4vw;
+    }
+
     #goal {
-        width: 80%;
-        gap: 0.25rem;
+        gap: 0.3rem;
+        padding: 0.4rem;
     }
 
     .goal-circle {
-        border-width: 1px;
-    }
-
-    .icon {
-        font-size: 1.125rem;
+        max-width: 50px;
+        max-height: 50px;
+        border-width: 1.5px;
     }
 
     #result {
@@ -477,13 +879,22 @@ h1 {
         font-size: 0.625rem;
     }
 
-    #goal {
-        width: 82%;
-        gap: 0.2rem;
+    .goal-container {
+        width: 95vw;
+        height: 30vh;
+        top: 35vh;
+        left: 2.5vw;
     }
 
-    .icon {
-        font-size: 1rem;
+    #goal {
+        gap: 0.2rem;
+        padding: 0.3rem;
+    }
+
+    .goal-circle {
+        max-width: 45px;
+        max-height: 45px;
+        border-width: 1px;
     }
 
     #result {
