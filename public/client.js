@@ -61,6 +61,9 @@ function seleccionarPosicion($circulo) {
             direction: $circulo.data('direccion') 
         };
         
+        $circulo.addClass('shoot-ball selected');
+        setTimeout(() => $circulo.removeClass('shoot-ball'), 800);
+        
         fase = "defender";
         $('#status').text(`Jugador ${numeroJugador}: ahora elige dónde parar`);
         console.log('Tiro seleccionado:', tiro);
@@ -71,6 +74,9 @@ function seleccionarPosicion($circulo) {
             height: $circulo.data('altura'), 
             direction: $circulo.data('direccion') 
         };
+        
+        $circulo.addClass('save-glove selected');
+        setTimeout(() => $circulo.removeClass('save-glove'), 600);
         
         fase = "finalizado";
         $('#status').text("Esperando al otro jugador...");
@@ -84,10 +90,6 @@ function seleccionarPosicion($circulo) {
     }
 
     $circulo.append(icono);
-    icono.animate([
-        { transform: "translateY(-50px) scale(0.8)", opacity: 0.7 },
-        { transform: "translateY(0px) scale(1.2)", opacity: 1 }
-    ], { duration: 600, easing: "ease-out" });
 }
 
 // Manejar nombre del jugador
