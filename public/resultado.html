@@ -87,7 +87,9 @@
         $('#tiroJ2').text(formatearPosicion(resultado.player2.shoot));
         $('#defensaJ2').text(formatearPosicion(resultado.player2.defend));
         
-        $('#ganador').html(`🏆 ${resultado.winner}`);
+        // Convertir nombre del ganador a mayúsculas
+        const ganadorTexto = resultado.winner === 'Empate' ? resultado.winner : resultado.winner.toUpperCase();
+        $('#ganador').html(`🏆 ${ganadorTexto}`);
 
         // Destacar al ganador
         if (resultado.winner === resultado.player1.name) {

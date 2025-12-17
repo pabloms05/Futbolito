@@ -65,7 +65,7 @@ function seleccionarPosicion($circulo) {
         setTimeout(() => $circulo.removeClass('shoot-ball'), 800);
         
         fase = "defender";
-        $('#status').text(`Jugador ${numeroJugador}: ahora elige dónde parar`);
+        $('#status').text('Ahora elige dónde parar');
         console.log('Tiro seleccionado:', tiro);
         
     } else if (fase === "defender") {
@@ -112,8 +112,14 @@ function manejarNombreJugador(callback) {
 // Eventos comunes de nombre
 function setupNombreEventos(onNombreSubmit) {
     $('#submitName').on('click', function() {
-        const nombre = $('#playerNameInput').val().trim();
+        let nombre = $('#playerNameInput').val().trim();
         if (nombre) {
+            // Capitalizar primera letra de cada palabra y limitar a 20 caracteres
+            nombre = nombre.substring(0, 20)
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
             nombreJugador = nombre;
             sessionStorage.setItem('nombreJugador', nombre);
             $('#nameModal').addClass('hidden');
@@ -141,7 +147,7 @@ socket.on("playerNumber", (num) => {
     $('#modalTitle').text(`Hola eres el Jugador ${numeroJugador}!!`);
     
     if (nombreJugador) {
-        $('#playerInfo').text(`${nombreJugador} (Jugador ${numeroJugador})`);
+        $('#playerInfo').text(`${nombreJugador}`);
     }
     
     console.log(`Asignado como Jugador ${numeroJugador}`);
@@ -156,7 +162,7 @@ socket.on("playerNameSet", (data) => {
         $('#status').text(`Bien ${nombreJugador}, estamos esperando al Contrincante`);
     }
     
-    $('#playerInfo').text(`${nombreJugador} (Jugador ${numeroJugador})`);
+    $('#playerInfo').text(`${nombreJugador}`);
 });
 
 socket.on("gameIdAssigned", (gameId) => {
@@ -167,7 +173,7 @@ socket.on("gameIdAssigned", (gameId) => {
 socket.on("gameStart", () => {
     $('#waitingRoom').addClass('hidden');
     fase = "chutar";
-    $('#status').text(`Jugador ${numeroJugador}: elige dónde tirar`);
+    $('#status').text('Elige dónde tirar');
     crearPorteria();
     console.log('Juego iniciado');
 });

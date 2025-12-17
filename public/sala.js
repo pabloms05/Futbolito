@@ -10,8 +10,14 @@ $(document).ready(function() {
     
     // Eventos específicos de crear sala
     $('#createRoomBtn').on('click', function() {
-        const nombre = $('#playerNameInput').val().trim();
+        let nombre = $('#playerNameInput').val().trim();
         if (nombre) {
+            // Capitalizar primera letra de cada palabra y limitar a 20 caracteres
+            nombre = nombre.substring(0, 20)
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
             nombreJugador = nombre;
             sessionStorage.setItem('nombreJugador', nombre);
             socket.emit("createRoom", nombre);

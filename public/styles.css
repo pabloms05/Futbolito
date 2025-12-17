@@ -24,12 +24,12 @@ body {
 
 /* ============ ESTILOS PARA PÁGINAS DE SALAS ============ */
 
-/* Páginas de sala, unir y random */
-.page-sala, .page-unir, .page-random {
+/* Páginas de sala, unir, random y juego */
+.page-sala, .page-unir, .page-random, .page-juego {
     position: relative;
 }
 
-.page-sala::before, .page-unir::before, .page-random::before {
+.page-sala::before, .page-unir::before, .page-random::before, .page-juego::before {
     content: '';
     position: absolute;
     top: 0;
@@ -196,14 +196,17 @@ input[type="text"]:focus {
     font-size: 4rem;
     color: #10b981;
     margin-bottom: 1rem;
+    animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .room-code-container {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: 20px;
     margin: 1.5rem 0;
     border: 2px solid #0ea5e9;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .label {
@@ -229,24 +232,36 @@ input[type="text"]:focus {
     font-family: 'Courier New', monospace;
     background: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 2px solid #0ea5e9;
+    box-shadow: 0 2px 10px rgba(14, 165, 233, 0.2);
+}
+
+.room-code-input {
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
 }
 
 .btn-copy {
-    background: #0ea5e9;
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
     color: white;
     border: none;
     padding: 0.75rem 1rem;
     font-size: 1.5rem;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
 .btn-copy:hover {
-    background: #0284c7;
-    transform: scale(1.1);
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
 }
 
 .hint {
@@ -262,8 +277,10 @@ input[type="text"]:focus {
     gap: 1rem;
     margin: 1.5rem 0;
     padding: 1rem;
-    background: #fef3c7;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 15px;
+    border: 2px solid #fbbf24;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
 }
 
 .spinner-small {
@@ -277,10 +294,12 @@ input[type="text"]:focus {
 
 .player-info {
     text-align: left;
-    background: #f8fafc;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     padding: 1rem;
-    border-radius: 10px;
+    border-radius: 15px;
     margin: 1rem 0;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .player-info p {
@@ -579,8 +598,8 @@ h1 {
     display: block;
 }
 
-/* Grid de círculos */
-#goal {
+/* Grid de círculos - Para páginas con portería (con goal-container) */
+.goal-container #goal {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
@@ -594,12 +613,31 @@ h1 {
     left: 16%;
 }
 
+/* Grid de círculos - Para páginas SIN portería (juego.html, partidaRandom.html) */
+.page-juego #goal,
+.page-random #goal {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    position: absolute;
+    top: 30vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    height: 55vh;
+    max-width: 900px;
+    max-height: 420px;
+    gap: 3rem 0;
+    z-index: 10;
+    place-items: center;
+    justify-items: stretch;
+    align-items: center;
+}
+
 /* Círculos individuales de la portería */
 .goal-circle {
-    width: 100%;
-    height: 100%;
-    max-width: 130px;
-    max-height: 130px;
+    width: 120px;
+    height: 120px;
     aspect-ratio: 1;
     border-radius: 50%;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
@@ -612,6 +650,24 @@ h1 {
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 0 0 20px rgba(96, 165, 250, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
+    margin: 0 auto;
+}
+
+/* Alinear círculos de la primera columna a la izquierda */
+.goal-circle:nth-child(3n + 1) {
+    margin-left: 0;
+    justify-self: start;
+}
+
+/* Centrar círculos de la columna del medio */
+.goal-circle:nth-child(3n + 2) {
+    justify-self: center;
+}
+
+/* Alinear círculos de la última columna a la derecha */
+.goal-circle:nth-child(3n) {
+    margin-right: 0;
+    justify-self: end;
 }
 
 .goal-circle:hover {
@@ -912,13 +968,20 @@ h1 {
         top: 18vh;
     }
 
-    #goal {
+    .goal-container #goal {
+        gap: 1rem;
+    }
+
+    .page-juego #goal,
+    .page-random #goal {
+        width: 70vw;
+        height: 50vh;
         gap: 1rem;
     }
 
     .goal-circle {
-        max-width: 110px;
-        max-height: 110px;
+        max-width: 100px;
+        max-height: 100px;
     }
 }
 
@@ -952,13 +1015,21 @@ h1 {
         top: 20vh;
     }
 
-    #goal {
+    .goal-container #goal {
+        gap: 0.8rem;
+    }
+
+    .page-juego #goal,
+    .page-random #goal {
+        width: 75vw;
+        height: 45vh;
+        top: 30vh;
         gap: 0.8rem;
     }
 
     .goal-circle {
-        max-width: 85px;
-        max-height: 85px;
+        max-width: 80px;
+        max-height: 80px;
         border-width: 2px;
     }
 
@@ -996,13 +1067,21 @@ h1 {
         top: 18vh;
     }
 
-    #goal {
+    .goal-container #goal {
+        gap: 0.5rem;
+    }
+
+    .page-juego #goal,
+    .page-random #goal {
+        width: 85vw;
+        height: 40vh;
+        top: 32vh;
         gap: 0.5rem;
     }
 
     .goal-circle {
-        max-width: 65px;
-        max-height: 65px;
+        max-width: 70px;
+        max-height: 70px;
         border-width: 2px;
     }
 

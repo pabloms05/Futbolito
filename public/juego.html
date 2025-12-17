@@ -9,18 +9,34 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
   <body class="page-juego">
-    <div class="info-container">
-      <p id="playerInfo"></p>
-      <p id="status">Esperando jugadores...</p>
+    <!-- Modal para nombre -->
+    <div id="nameModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modalTitle">¡Bienvenido!</h2>
+            <p>Introduce tu nombre para continuar</p>
+            <input type="text" id="playerNameInput" placeholder="Tu nombre" maxlength="20">
+            <button id="submitName">Comenzar</button>
+        </div>
     </div>
 
-    <div class="goal-container">
-      <img src="assets/porteria.png" alt="Portería" class="goal-image" />
-      <div id="goal"></div>
+    <!-- Estado de espera -->
+    <div id="waitingRoom" class="waiting-room hidden">
+        <div class="waiting-content">
+            <div class="spinner"></div>
+            <h2>Esperando oponente...</h2>
+            <p id="waitingText">Esperando a que el otro jugador se una</p>
+        </div>
     </div>
+
+    <div class="info-container">
+      <div id="playerInfo"></div>
+      <div id="status">Esperando jugadores...</div>
+    </div>
+
+    <div id="goal"></div>
 
     <div id="result"></div>
-    <button id="reset" class="hidden">Reiniciar</button>
+    <button id="reset" style="display:none;">Reiniciar</button>
 
     <script src="client.js"></script>
     <script src="juego.js"></script>
