@@ -1,20 +1,15 @@
 FROM node:18-alpine
 
-# Directorio base
 WORKDIR /app
 
-# Instalar dependencias usando los manifests del servidor
-WORKDIR /app/server
-COPY server/package.json server/package-lock.json ./
-RUN npm ci --omit=dev
+# Copiar todo el contenido
+COPY . .
 
-# Volver a /app y copiar el código
-WORKDIR /app
-COPY server/ ./server/
-COPY public/ ./public/
+# Instalar dependencias desde el directorio server
+RUN cd server && npm ci --omit=dev
 
-# Exponer puerto de la app
+# Exponer puerto
 EXPOSE 3000
 
-# Iniciar el servidor
+# Iniciar servidor
 CMD ["node", "server/server.js"]
