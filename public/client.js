@@ -4,7 +4,24 @@
 // ============================================
 
 // Conexión Socket.IO (global para todas las páginas)
-const socket = io();
+let socket;
+try {
+    socket = io();
+} catch (err) {
+    console.error('No se pudo cargar Socket.IO', err);
+    if (window.Swal) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'No se pudo establecer la conexión con el servidor. Revisa tu red e inténtalo de nuevo.',
+            confirmButtonText: 'Reintentar',
+            confirmButtonColor: '#3085d6'
+        }).then(() => location.reload());
+    } else {
+        alert('No se pudo conectar con el servidor. Revisa tu red e inténtalo de nuevo.');
+        location.reload();
+    }
+}
 
 // Variables globales compartidas
 let numeroJugador = 0;
@@ -125,7 +142,13 @@ function setupNombreEventos(onNombreSubmit) {
             $('#nameModal').addClass('hidden');
             if (onNombreSubmit) onNombreSubmit(nombre);
         } else {
-            alert('Por favor, ingresa un nombre');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nombre requerido',
+                text: 'Por favor, ingresa tu nombre para continuar',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6'
+            });
         }
     });
     
@@ -205,8 +228,51 @@ socket.on("waitingForOtherPlayer", () => {
 });
 
 socket.on("joinError", (message) => {
-    alert(message);
-    window.location.href = 'menu.html';
+    Swal.fire({
+        icon: 'error',
+        title: 'Error al unirse',
+        text: message,
+        confirmButtonText: 'Ir al menú',
+        confirmButtonColor: '#3085d6'
+    }).then(() => {
+        window.location.href = 'menu.html';
+    });
+});
+
+// Aviso proactivo al cerrar/navegar fuera (mejora la rapidez de notificación)
+function avisarSalidaPartida() {
+    try { socket.emit('playerLeaving'); } catch (e) {}
+}
+
+// 'pagehide' funciona mejor en móvil/Safari; 'beforeunload' como respaldo
+window.addEventListener('pagehide', avisarSalidaPartida);
+window.addEventListener('beforeunload', avisarSalidaPartida);
+socket.on("playerDisconnected", (data) => {
+    const { playerName } = data;
+    
+    // Mostrar alerta con SweetAlert
+    Swal.fire({
+        icon: 'warning',
+        title: 'Jugador Desconectado',
+        html: `<strong>${playerName}</strong> se ha desconectado de la partida.<br><br>Volviendo al menú...`,
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: true,
+        confirmButtonText: 'Volver al Menú',
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick: false,
+        didOpen: () => {
+            // Auto-redirect después de 3 segundos
+            setTimeout(() => {
+                window.location.href = 'menu.html';
+            }, 3000);
+        }
+    }).then((result) => {
+        // Si hace click en el botón, redirigir inmediatamente
+        if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+            window.location.href = 'menu.html';
+        }
+    });
 });
 
 // ============================================
@@ -224,4 +290,7 @@ $(document).ready(function() {
         socket.emit("cancelWaiting");
         window.location.href = 'menu.html';
     });
+
+    // no-op
 });
+

@@ -19,12 +19,25 @@ $(document).ready(function() {
         const codigo = $('#roomCodeInput').val().trim();
         
         if (!nombre) {
-            alert('Por favor, ingresa tu nombre');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nombre requerido',
+                text: 'Por favor, ingresa tu nombre para unirte a la sala',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6'
+            });
             return;
         }
         
         if (!codigo || codigo.length !== 6) {
             $('#errorMessage').removeClass('hidden');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Código inválido',
+                text: 'Ingresa un código de 6 caracteres para unirte a la sala',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6'
+            });
             return;
         }
         
@@ -60,11 +73,23 @@ socket.on("roomJoined", (data) => {
 socket.on("joinError", (message) => {
     $('#joiningSection').addClass('hidden');
     $('#joinSection').removeClass('hidden');
-    $('#errorMessage').text('❌ ' + message).removeClass('hidden');
+    Swal.fire({
+        icon: 'error',
+        title: 'Error al unirse',
+        text: message,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#3085d6'
+    });
 });
 
 socket.on("error", (message) => {
     $('#joiningSection').addClass('hidden');
     $('#joinSection').removeClass('hidden');
-    $('#errorMessage').text('❌ ' + message).removeClass('hidden');
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#3085d6'
+    });
 });

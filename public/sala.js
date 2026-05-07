@@ -22,7 +22,13 @@ $(document).ready(function() {
             sessionStorage.setItem('nombreJugador', nombre);
             socket.emit("createRoom", nombre);
         } else {
-            alert('Por favor, ingresa tu nombre');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Nombre requerido',
+                text: 'Por favor, ingresa tu nombre para crear la sala',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3085d6'
+            });
         }
     });
     
@@ -44,10 +50,21 @@ $(document).ready(function() {
     });
 
     $('#cancelRoom').on('click', function() {
-        if (confirm('¿Seguro que quieres cancelar la sala?')) {
-            socket.emit("cancelRoom", roomCode);
-            window.location.href = 'menu.html';
-        }
+        Swal.fire({
+            title: '¿Cancelar sala?',
+            text: '¿Estás seguro de que quieres cancelar la sala?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                socket.emit("cancelRoom", roomCode);
+                window.location.href = 'menu.html';
+            }
+        });
     });
 });
 
@@ -70,5 +87,11 @@ socket.on("playerJoinedRoom", (data) => {
 });
 
 socket.on("error", (message) => {
-    alert(message);
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#3085d6'
+    });
 });

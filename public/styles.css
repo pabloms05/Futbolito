@@ -66,9 +66,9 @@ body {
     background: linear-gradient(135deg, #64748b 0%, #475569 100%);
     color: white;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
-    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1219,3 +1219,81 @@ h1 {
         font-size: 0.625rem;
     }
 }
+
+/* Modal de desconexión */
+.disconnection-modal {
+    display: flex;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.disconnection-modal .modal-content {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    padding: 3rem;
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(220, 38, 38, 0.4), 0 0 40px rgba(239, 68, 68, 0.2);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    animation: slideDown 0.4s ease-out;
+    backdrop-filter: blur(10px);
+    border: 2px solid #ef4444;
+}
+
+.disconnection-modal .modal-content h2 {
+    color: #7f1d1d;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+}
+
+.disconnection-modal .modal-content p {
+    color: #991b1b;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.disconnection-modal .modal-content strong {
+    color: #7f1d1d;
+    font-weight: 700;
+}
+
+.disconnection-modal #backToMenu {
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+}
+
+.disconnection-modal #backToMenu:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.6);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
