@@ -1,0 +1,42 @@
+services:
+  # Aplicación Node.js con Socket.io
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: futbolito_app
+    restart: "no"
+    working_dir: /app
+    volumes:
+      - ./server:/app/server
+      - ./public:/app/public
+      - /app/server/node_modules
+    networks:
+      - futbolito_network
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    command: sh -c "cd server && npm run dev"
+
+  # Nginx - Servidor web
+  nginx:
+    image: nginx:alpine
+    container_name: futbolito_nginx
+    restart: "no"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./public:/app/public:ro
+    networks:
+      - futbolito_network
+      - proxy_network
+    depends_on:
+      - app
+
+networks:
+  futbolito_network:
+    driver: bridge
+  proxy_network:
+    external: true
+    name: proxy_network
